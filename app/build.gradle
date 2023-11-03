@@ -16,10 +16,20 @@ android {
         python {
             pip {
                 install "six"
+                // Uncomment and change the following:
+                // install "depthai" // or "path/to/depthai.whl"
+                // install "chaquopy_libcxx" // or "path/to/chaquopy_libcxx.whl"
             }
         }
         ndk {
-            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+            // Note, uncomment once other wheels are available
+            // abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+            abiFilters "arm64-v8a"
+        }
+        externalNativeBuild {
+            cmake {
+                cppFlags ''
+            }
         }
     }
 
@@ -34,6 +44,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    externalNativeBuild {
+        cmake {
+            path file('src/main/cpp/CMakeLists.txt')
+            version '3.22.1'
+        }
+    }
 }
 
 dependencies {
@@ -43,6 +59,6 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     testImplementation 'androidx.arch.core:core-testing:2.0.0'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation "androidx.test.ext:junit:1.1.3"
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
 }
